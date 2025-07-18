@@ -26,11 +26,12 @@ import android.content.DialogInterface;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.kaopiz.progresshud.R;
@@ -77,85 +78,75 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.indeterminate:
-                hud = KProgressHUD.create(this)
-                        .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE);
-                scheduleDismiss();
-                break;
-            case R.id.label_indeterminate:
-                hud = KProgressHUD.create(this)
-                        .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
-                        .setLabel("Please wait")
-                        .setCancellable(new DialogInterface.OnCancelListener()
-                        {
-                            @Override public void onCancel(DialogInterface
-                                dialogInterface)
-                            {
-                                Toast.makeText(MainActivity.this, "You " +
+        int id = v.getId();
+
+        if (id == R.id.indeterminate) {
+            hud = KProgressHUD.create(this)
+                    .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE);
+            scheduleDismiss();
+        } else if (id == R.id.label_indeterminate) {
+            hud = KProgressHUD.create(this)
+                    .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                    .setLabel("Please wait")
+                    .setCancellable(new DialogInterface.OnCancelListener() {
+                        @Override
+                        public void onCancel(DialogInterface
+                                                     dialogInterface) {
+                            Toast.makeText(MainActivity.this, "You " +
                                     "cancelled manually!", Toast
                                     .LENGTH_SHORT).show();
-                            }
-                        });
+                        }
+                    });
 
-                scheduleDismiss();
-                break;
-            case R.id.detail_indeterminate:
-                hud = KProgressHUD.create(this)
-                        .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
-                        .setLabel("Please wait")
-                        .setDetailsLabel("Downloading data");
-                scheduleDismiss();
-                break;
-            case R.id.grace_indeterminate:
-                hud = KProgressHUD.create(this)
-                        .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
-                        .setGraceTime(1000);
-                scheduleDismiss();
-                break;
-            case R.id.determinate:
-                hud = KProgressHUD.create(MainActivity.this)
-                        .setStyle(KProgressHUD.Style.PIE_DETERMINATE)
-                        .setLabel("Please wait");
-                simulateProgressUpdate();
-                break;
-            case R.id.annular_determinate:
-                hud = KProgressHUD.create(MainActivity.this)
-                        .setStyle(KProgressHUD.Style.ANNULAR_DETERMINATE)
-                        .setLabel("Please wait")
-                        .setDetailsLabel("Downloading data");
-                simulateProgressUpdate();
-                break;
-            case R.id.bar_determinate:
-                hud = KProgressHUD.create(MainActivity.this)
-                        .setStyle(KProgressHUD.Style.BAR_DETERMINATE)
-                        .setLabel("Please wait");
-                simulateProgressUpdate();
-                break;
-            case R.id.custom_view:
-                ImageView imageView = new ImageView(this);
-                imageView.setBackgroundResource(R.drawable.spin_animation);
-                AnimationDrawable drawable = (AnimationDrawable) imageView.getBackground();
-                drawable.start();
-                hud = KProgressHUD.create(this)
-                        .setCustomView(imageView)
-                        .setLabel("This is a custom view");
-                scheduleDismiss();
-                break;
-            case R.id.dim_background:
-                hud = KProgressHUD.create(this)
-                        .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
-                        .setDimAmount(0.5f);
-                scheduleDismiss();
-                break;
-            case R.id.custom_color_animate:
-                //noinspection deprecation
-                hud = KProgressHUD.create(this)
-                        .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
-                        .setWindowColor(getResources().getColor(R.color.colorPrimary))
-                        .setAnimationSpeed(2);
-                scheduleDismiss();
-                break;
+            scheduleDismiss();
+        } else if (id == R.id.detail_indeterminate) {
+            hud = KProgressHUD.create(this)
+                    .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                    .setLabel("Please wait")
+                    .setDetailsLabel("Downloading data");
+            scheduleDismiss();
+        } else if (id == R.id.grace_indeterminate) {
+            hud = KProgressHUD.create(this)
+                    .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                    .setGraceTime(1000);
+            scheduleDismiss();
+        } else if (id == R.id.determinate) {
+            hud = KProgressHUD.create(MainActivity.this)
+                    .setStyle(KProgressHUD.Style.PIE_DETERMINATE)
+                    .setLabel("Please wait");
+            simulateProgressUpdate();
+        } else if (id == R.id.annular_determinate) {
+            hud = KProgressHUD.create(MainActivity.this)
+                    .setStyle(KProgressHUD.Style.ANNULAR_DETERMINATE)
+                    .setLabel("Please wait")
+                    .setDetailsLabel("Downloading data");
+            simulateProgressUpdate();
+        } else if (id == R.id.bar_determinate) {
+            hud = KProgressHUD.create(MainActivity.this)
+                    .setStyle(KProgressHUD.Style.BAR_DETERMINATE)
+                    .setLabel("Please wait");
+            simulateProgressUpdate();
+        } else if (id == R.id.custom_view) {
+            ImageView imageView = new ImageView(this);
+            imageView.setBackgroundResource(R.drawable.spin_animation);
+            AnimationDrawable drawable = (AnimationDrawable) imageView.getBackground();
+            drawable.start();
+            hud = KProgressHUD.create(this)
+                    .setCustomView(imageView)
+                    .setLabel("This is a custom view");
+            scheduleDismiss();
+        } else if (id == R.id.dim_background) {
+            hud = KProgressHUD.create(this)
+                    .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                    .setDimAmount(0.5f);
+            scheduleDismiss();
+        } else if (id == R.id.custom_color_animate) {
+            //noinspection deprecation
+            hud = KProgressHUD.create(this)
+                    .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                    .setWindowColor(getResources().getColor(R.color.colorPrimary))
+                    .setAnimationSpeed(2);
+            scheduleDismiss();
         }
 
         hud.show();
@@ -166,6 +157,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             int currentProgress;
+
             @Override
             public void run() {
                 currentProgress += 1;

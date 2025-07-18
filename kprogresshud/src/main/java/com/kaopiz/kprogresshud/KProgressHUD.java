@@ -16,7 +16,6 @@
 
 package com.kaopiz.kprogresshud;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -67,11 +66,13 @@ public class KProgressHUD {
         mFinished = false;
 
         setStyle(Style.SPIN_INDETERMINATE);
+        KProgressHUDLifecycleObserver.attachTo(this, context);
     }
 
     /**
      * Create a new HUD. Have the same effect as the constructor.
      * For convenient only.
+     *
      * @param context Activity context that the HUD bound to
      * @return An unique HUD instance
      */
@@ -79,19 +80,20 @@ public class KProgressHUD {
         return new KProgressHUD(context);
     }
 
-  /**
-   * Create a new HUD. specify the HUD style (if you use a custom view, you need {@code KProgressHUD.create(Context context)}).
-   *
-   * @param context Activity context that the HUD bound to
-   * @param style One of the KProgressHUD.Style values
-   * @return An unique HUD instance
-   */
+    /**
+     * Create a new HUD. specify the HUD style (if you use a custom view, you need {@code KProgressHUD.create(Context context)}).
+     *
+     * @param context Activity context that the HUD bound to
+     * @param style   One of the KProgressHUD.Style values
+     * @return An unique HUD instance
+     */
     public static KProgressHUD create(Context context, Style style) {
         return new KProgressHUD(context).setStyle(style);
     }
 
     /**
      * Specify the HUD style (not needed if you use a custom view)
+     *
      * @param style One of the KProgressHUD.Style values
      * @return Current HUD
      */
@@ -118,6 +120,7 @@ public class KProgressHUD {
 
     /**
      * Specify the dim area around the HUD, like in Dialog
+     *
      * @param dimAmount May take value from 0 to 1. Default to 0 (no dimming)
      * @return Current HUD
      */
@@ -130,7 +133,8 @@ public class KProgressHUD {
 
     /**
      * Set HUD size. If not the HUD view will use WRAP_CONTENT instead
-     * @param width in dp
+     *
+     * @param width  in dp
      * @param height in dp
      * @return Current HUD
      */
@@ -140,9 +144,9 @@ public class KProgressHUD {
     }
 
     /**
-     * @deprecated  As of release 1.1.0, replaced by {@link #setBackgroundColor(int)}
      * @param color ARGB color
      * @return Current HUD
+     * @deprecated As of release 1.1.0, replaced by {@link #setBackgroundColor(int)}
      */
     @Deprecated
     public KProgressHUD setWindowColor(int color) {
@@ -152,6 +156,7 @@ public class KProgressHUD {
 
     /**
      * Specify the HUD background color
+     *
      * @param color ARGB color
      * @return Current HUD
      */
@@ -162,6 +167,7 @@ public class KProgressHUD {
 
     /**
      * Specify corner radius of the HUD (default is 10)
+     *
      * @param radius Corner radius in dp
      * @return Current HUD
      */
@@ -172,6 +178,7 @@ public class KProgressHUD {
 
     /**
      * Change animation speed relative to default. Used with indeterminate style
+     *
      * @param scale Default is 1. If you want double the speed, set the param at 2.
      * @return Current HUD
      */
@@ -182,6 +189,7 @@ public class KProgressHUD {
 
     /**
      * Optional label to be displayed.
+     *
      * @return Current HUD
      */
     public KProgressHUD setLabel(String label) {
@@ -191,6 +199,7 @@ public class KProgressHUD {
 
     /**
      * Optional label to be displayed
+     *
      * @return Current HUD
      */
     public KProgressHUD setLabel(String label, int color) {
@@ -200,6 +209,7 @@ public class KProgressHUD {
 
     /**
      * Optional detail description to be displayed on the HUD
+     *
      * @return Current HUD
      */
     public KProgressHUD setDetailsLabel(String detailsLabel) {
@@ -209,6 +219,7 @@ public class KProgressHUD {
 
     /**
      * Optional detail description to be displayed
+     *
      * @return Current HUD
      */
     public KProgressHUD setDetailsLabel(String detailsLabel, int color) {
@@ -218,6 +229,7 @@ public class KProgressHUD {
 
     /**
      * Max value for use in one of the determinate styles
+     *
      * @return Current HUD
      */
     public KProgressHUD setMaxProgress(int maxProgress) {
@@ -235,6 +247,7 @@ public class KProgressHUD {
 
     /**
      * Provide a custom view to be displayed.
+     *
      * @param view Must not be null
      * @return Current HUD
      */
@@ -249,7 +262,7 @@ public class KProgressHUD {
 
     /**
      * Specify whether this HUD can be cancelled by using back button (default is false)
-     *
+     * <p>
      * Setting a cancelable to true with this method will set a null callback,
      * clearing any callback previously set with
      * {@link #setCancellable(DialogInterface.OnCancelListener)}
@@ -266,9 +279,8 @@ public class KProgressHUD {
      * Specify a callback to run when using the back button (default is null)
      *
      * @param listener The code that will run if the user presses the back
-     * button. If you pass null, the dialog won't be cancellable, just like
-     * if you had called {@link #setCancellable(boolean)} passing false.
-     *
+     *                 button. If you pass null, the dialog won't be cancellable, just like
+     *                 if you had called {@link #setCancellable(boolean)} passing false.
      * @return Current HUD
      */
     public KProgressHUD setCancellable(DialogInterface.OnCancelListener listener) {
@@ -279,6 +291,7 @@ public class KProgressHUD {
 
     /**
      * Specify whether this HUD closes itself if progress reaches max. Default is true.
+     *
      * @return Current HUD
      */
     public KProgressHUD setAutoDismiss(boolean isAutoDismiss) {
@@ -292,6 +305,7 @@ public class KProgressHUD {
      * not be shown at all.
      * This may be used to prevent HUD display for very short tasks.
      * Defaults to 0 (no grace time).
+     *
      * @param graceTimeMs Grace time in milliseconds
      * @return Current HUD
      */
@@ -340,7 +354,7 @@ public class KProgressHUD {
         private Determinate mDeterminateView;
         private Indeterminate mIndeterminateView;
         private View mView;
-		private TextView mLabelText;
+        private TextView mLabelText;
         private TextView mDetailsText;
         private String mLabel;
         private String mDetailsLabel;
@@ -349,7 +363,7 @@ public class KProgressHUD {
         private int mWidth, mHeight;
         private int mLabelColor = Color.WHITE;
         private int mDetailColor = Color.WHITE;
-		
+
         public ProgressDialog(Context context) {
             super(context);
         }

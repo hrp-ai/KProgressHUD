@@ -16,10 +16,8 @@
 
 package com.kaopiz.kprogresshud;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 
@@ -38,13 +36,12 @@ class BackgroundLayout extends LinearLayout {
         init();
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public BackgroundLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
     }
 
-    @SuppressWarnings("deprecation")
+
     private void init() {
         int color = getContext().getResources().getColor(R.color.kprogresshud_default_color);
         initBackground(color, mCornerRadius);
@@ -55,12 +52,7 @@ class BackgroundLayout extends LinearLayout {
         drawable.setShape(GradientDrawable.RECTANGLE);
         drawable.setColor(color);
         drawable.setCornerRadius(cornerRadius);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            setBackground(drawable);
-        } else {
-            //noinspection deprecation
-            setBackgroundDrawable(drawable);
-        }
+        setBackground(drawable);
     }
 
     public void setCornerRadius(float radius) {
